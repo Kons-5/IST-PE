@@ -18,11 +18,15 @@ for(i in 1:nrow(df)) {
 
 # Plot
 meltdf <- melt(df,id="tempo")
+plot <- ggplot(meltdf,aes(x=tempo,y=value,colour=variable,group=variable)) +
+        geom_line(size=0.5, alpha=0.6) + geom_point(size=0.7) +
+        scale_color_manual(values=c("#D65DB1", "#9270D3"),labels=c("TPP", "DDesemp")) +
+        theme_minimal()
 
-ggplot(meltdf,aes(x=tempo,y=value,colour=variable,group=variable)) +
-  geom_line(size=0.5, alpha=0.6) +
-  geom_point(size=0.7) +
-  theme_minimal() +
-  xlab("Years") +
-  ylab("") +
-  scale_color_manual(values=c("#D65DB1", "#9270D3"),labels=c("TPP", "DDesemp"))
+# Plot Theming
+plot + theme(legend.position = "bottom") +
+       theme(legend.title = element_blank()) +
+       theme(legend.key = element_rect(fill = "white", colour = "black")) +
+       labs(y = "", x = "Anos")
+
+
