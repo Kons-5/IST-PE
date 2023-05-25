@@ -1,8 +1,8 @@
 library(readxl)
 library(tidyverse)
-library(reshape2)
+library(extrafont)
 
-df <- read_excel("econ.xlsx")[223:575, c(1, 4:5)]
+df <- read_excel("econ.xlsx")[223:574, c(1, 4:5)]
 
 # Apply variable transformation
 stdd_tpp = sd(df[[2]], na.rm = TRUE)
@@ -17,16 +17,26 @@ for(i in 1:nrow(df)) {
 }
 
 # Plot
+lims <- as.POSIXct(strptime(c("1986-01-01","2015-04-01"), format = "%Y-%m-%d"))    
+
 meltdf <- melt(df,id="tempo")
 plot <- ggplot(meltdf,aes(x=tempo,y=value,colour=variable,group=variable)) +
-        geom_line(size=0.5, alpha=0.6) + geom_point(size=0.7) +
+        geom_line(linewidth=0.5, alpha=0.6) + geom_point(size=0.7) +
         scale_color_manual(values=c("#D65DB1", "#9270D3"),labels=c("TPP", "DDesemp")) +
-        theme_minimal()
+        theme_bw()
 
 # Plot Theming
-plot + theme(legend.position = "bottom") +
+plot + theme(legend.position = "right") +
        theme(legend.title = element_blank()) +
        theme(legend.key = element_rect(fill = "white", colour = "black")) +
-       labs(y = "", x = "Anos")
+       theme(text=element_text(family="CM Sans", face="bold", size=12)) +
+       labs(y = "", x = "Anos") +
+       scale_x_datetime(date_labels = "%Y",
+                         date_breaks = "25 month",
+                         limits = lims,
+                         expand = expansion(add = c(0,0))) 
+
+
+
 
 
