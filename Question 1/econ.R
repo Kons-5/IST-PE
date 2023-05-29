@@ -2,7 +2,7 @@ library(readxl)
 library(tidyverse)
 library(reshape2)
 
-df <- read_excel("econ.xlsx")[223:574, c(1, 4:5)]
+df <- read_excel("~/Documents/IST-PE/Question\ 1/econ.xlsx")[223:574, c(1, 4:5)]
 
 # Apply variable transformation
 stdd_tpp = sd(df[[2]], na.rm = TRUE)
