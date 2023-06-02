@@ -1,8 +1,6 @@
 library(readxl)
 library(tidyverse)
 library(reshape2)
-library(ggpmisc) # For geom_ma()
-
 
 # build dataframe
 data <- read_xlsx("econ.xlsx") 
@@ -28,8 +26,8 @@ meltdf <- melt(df, id="tempo")
 # Create plot
 plot <- ggplot(data = meltdf, aes(x=tempo, y=value, colour=variable, group=variable)) +
   geom_line(linewidth=0.5, alpha=0.5,na.rm = TRUE) +
+  geom_smooth(data = subset(meltdf, variable == "ndesemp"), method = "gam") +
   geom_point(size=0.7, alpha=0.6,na.rm = TRUE) +
-  geom_ma(ma_fun = SMA, n = 12, color = "black", size = 0.7) + # add moving average line
   scale_color_manual(values=c("#D65DB1", "#9270D3"), labels=c("POP", "NDesemp")) 
 
 # Add theming

@@ -16,7 +16,7 @@ scaleFUN <- function(x) sprintf("%.0f", x)
 breaksFUN <- function(x) seq(min(x, na.rm = TRUE), max(x, na.rm = TRUE), by = 45.1)
 
 # Set plot theme
-#ggthemr("light")
+ggthemr("light")
 
 # Plot the data
 ggplot(df, aes(x = Ocupação, y = Tempo, fill=Ocupação)) +
@@ -24,4 +24,6 @@ ggplot(df, aes(x = Ocupação, y = Tempo, fill=Ocupação)) +
   geom_jitter(data = df, aes(x = Ocupação, y = Tempo, color=Ocupação), size=1.45) +
   facet_wrap(~Ocupação, scale="free") + xlab("") +
   theme(axis.text.x = element_blank(), 
-        axis.ticks = element_blank())
+        axis.ticks = element_blank(),
+        strip.background = element_blank(),
+        strip.text.x = element_blank())
