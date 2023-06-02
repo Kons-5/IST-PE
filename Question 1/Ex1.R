@@ -1,7 +1,7 @@
 library(readxl)
 library(ggplot2)
 
-data <- read_xlsx("C:/Users/andre/Documents/PEs/Ex1/econ.xlsx") 
+data <- read_xlsx("econ.xlsx") 
 data$tempo <- as.Date(data$tempo, format = "%Y-%m-%d")
 f_data <- subset(data, tempo >= as.Date("1996-01-01"))
 f_data <- f_data[,c("tempo", "pop", "ndesemp")]
