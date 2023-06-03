@@ -13,5 +13,8 @@ first_digits <- substr(powers_of_two, 1, 1)
 # Calculate the fraction of powers whose first digit is 3 or 9
 fraction <- sum(first_digits %in% c("1", "6")) / length(powers_of_two)
 
+# Find the absolute deviation of the specified parameter
 abs_deviation <- abs(prob39 - fraction)
+
+# print :]
 print(round(abs_deviation, 4))
