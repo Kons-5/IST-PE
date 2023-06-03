@@ -1,16 +1,16 @@
 # Set designated seed 
-set.seed(1501)
+set.seed(1338)
 
 # Cauchy's distribuition parameters
-location = -1.6
-scale = 1
+location = 2.2
+scale = 1.6
 
 # Normal's distribuition parameters
-mean = 3.6
-sd = 3.4
+mean = 3.9
+sd = 1.4
 
 # Generate sample
-sample_size = 178
+sample_size = 124
 sample = rcauchy(sample_size, location, scale)
 
 # Find theoretical quantiles
