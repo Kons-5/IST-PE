@@ -17,3 +17,6 @@ sample_above_mean <- samples[samples > sample_mean]
 proportion <- sum(sample_above_mean > (sample_mean + sample_sd)) / length(sample_above_mean)
 
 print(round(proportion,4))
+
+
+

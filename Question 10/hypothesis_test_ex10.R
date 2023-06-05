@@ -10,8 +10,16 @@ n <- 20
 m <- 100
 samples <- replicate(m, rnorm(n, mu, sigma))
 
-# Conduct a t-test on each sample
-p_values <- apply(samples, 2, function(x) t.test(x, mu = 50.9)$p.value)
+# Conduct a z-test on each sample
+z.test <- function(x, mu = 0, sigma.x = 1){
+  xbar <- mean(x)
+  se <- sigma.x / sqrt(length(x))
+  z <- (xbar - mu) / se
+  p.value <- 2 * (1 - pnorm(abs(z)))  # Two-tailed test
+  return(list(statistic = z, p.value = p.value))
+}
+
+p_values <- apply(samples, 2, function(x) z.test(x, 50.9, sigma)$p.value)
 
 # Estimate the probability of not rejecting the null hypothesis
 alpha <- 0.03

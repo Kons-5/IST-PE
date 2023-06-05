@@ -7,7 +7,7 @@ scale = 1.6
 
 # Normal's distribuition parameters
 mean = 3.9
-sd = 1.4
+sd = sqrt(1.4)
 
 # Generate sample
 sample_size = 124
@@ -21,23 +21,19 @@ theoretical_quantiles_norm = qnorm(quantiles, mean, sd)
 # sort sample
 sample = sort(sample)
 
-# Create a blank plot with the grid
-plot(theoretical_quantiles_cauchy, sample, type = "n", 
-     xlab = "Theoretical Quantiles", 
-     ylab = "Sample Values")
-abline(h = pretty(range(sample)), v = pretty(range(theoretical_quantiles_cauchy)), 
-       col = "gray", lty = "dashed")
+# create plot
+main_plot <- ggplot() +
+          geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
+          geom_point(aes(x = theoretical_quantiles_cauchy, y = sample, colour="Cauchy"), shape=1,alpha=0.5, size=2) +
+          geom_point(aes(x = theoretical_quantiles_norm, y = sample, colour="Normal"), shape=1,alpha=0.5,size=2) +
+          labs(title = "QQ-Plot", x = "Theoretical Quantiles", y = "Sample Values", color = "Distribuitons") +
+          scale_color_manual(values = c("Cauchy" = "blue", "Normal" = "red")) +
+          theme_linedraw() 
 
-# Add the points and line to the plot for Cauchy distribution
-points(theoretical_quantiles_cauchy, sample, col = "red")
-qqline(sample, distribution = qcauchy, col="red", lwd = 1.5)
+# Create inset plot
+inset_plot <- main_plot + xlim(-6,14) + ylim(-20,20) +
+              theme(legend.position = "none", axis.title = element_blank(), title = element_blank())
 
-# Overlay the points and line for Normal distribution
-points(theoretical_quantiles_norm, sample, col = "blue")
-qqline(sample, distribution = qnorm, col="blue", lwd = 1.5)
-
-# Add legend
-legend("topright", 
-       legend = c("Cauchy", "Normal"), 
-       col = c("red", "blue"), 
-       lty = 1)
+inset_grob <- ggplotGrob(inset_plot)
+final_plot <- main_plot + annotation_custom(grob = inset_grob, xmin = -65, xmax = -10, ymin = 100, ymax = 250)
+print(final_plot)

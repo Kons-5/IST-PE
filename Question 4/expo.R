@@ -15,3 +15,4 @@ expected_value <- rate
 # Find absolute deviation
 absolute_deviation <- abs(mean_counts - expected_value)
 round(absolute_deviation, 4)
+
