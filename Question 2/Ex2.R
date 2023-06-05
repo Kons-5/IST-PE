@@ -2,7 +2,7 @@ library(readxl)
 library(ggplot2)
 
 
-dados <- read.csv("C:/Users/andre/Documents/PEs/Ex2/TIME_USE_24092022.csv", header = TRUE, sep = ",")
+dados <- read.csv("TIME_USE_24092022.csv", header = TRUE, sep = ",")
 
 # Retirar dados da África do Sul e restringir dos dados a Lazer a Trabalho não remunerado
 dados <- dados[dados$País != "África do Sul",]

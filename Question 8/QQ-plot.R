@@ -20,31 +20,24 @@ theoretical_quantiles_norm = qnorm(quantiles, mean, sd)
 
 # sort sample
 sample = sort(sample)
-x = 1:sample_size
-
-# Set a specific layout for plot
-layout(matrix(c(1,2), ncol=2), widths=c(1,1), heights=c(1,1))
-
-# Adjust the margins for first plot
-par(mar=c(5, 4, 4, 0.5))
 
 # Create a blank plot with the grid
-plot(theoretical_quantiles_cauchy, sample, type = "n", xlab = "Quantis Teóricos (Cauchy)", ylab = "Valores da Amostra")
-abline(h = pretty(range(sample)), v = pretty(range(theoretical_quantiles_cauchy)), col = "gray", lty = "dashed")
+plot(theoretical_quantiles_cauchy, sample, type = "n", 
+     xlab = "Theoretical Quantiles", 
+     ylab = "Sample Values")
+abline(h = pretty(range(sample)), v = pretty(range(theoretical_quantiles_cauchy)), 
+       col = "gray", lty = "dashed")
 
-# Add the points and line to the plot
-points(theoretical_quantiles_cauchy, sample)
-qqline(sample, distribution = qcauchy, col="red",lwd = 1.5)
+# Add the points and line to the plot for Cauchy distribution
+points(theoretical_quantiles_cauchy, sample, col = "red")
+qqline(sample, distribution = qcauchy, col="red", lwd = 1.5)
 
-# Adjust the margins for second plot
-par(mar=c(5, 0.5, 4, 4))
+# Overlay the points and line for Normal distribution
+points(theoretical_quantiles_norm, sample, col = "blue")
+qqline(sample, distribution = qnorm, col="blue", lwd = 1.5)
 
-# Create a blank plot with the grid for the second plot
-plot(theoretical_quantiles_norm, sample, type = "n", xlab = "Quantis Teóricos (Normal)", ylab = "", yaxt = "n")
-abline(h = pretty(range(sample)), v = pretty(range(theoretical_quantiles_norm)), col = "gray", lty = "dashed")
-
-# Add the points and line to the second plot
-points(theoretical_quantiles_norm, sample)
-qqline(sample, col="red",lwd = 1.5)
-
-
+# Add legend
+legend("topright", 
+       legend = c("Cauchy", "Normal"), 
+       col = c("red", "blue"), 
+       lty = 1)
