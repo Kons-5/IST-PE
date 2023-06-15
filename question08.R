@@ -1,5 +1,5 @@
-# Load required libraries
-library(ggplot2, ggthemes)
+# Load required libraries - install.packages("pacman")
+pacman::p_load(ggplot2, ggthemes)
 
 # Set parameters
 set.seed(1338)  # Fix the random seed for reproducibility
@@ -39,6 +39,6 @@ final_plot <- main_plot + annotation_custom(grob = inset_grob, xmin = -65, xmax 
   annotate("segment", x = -10, xend = -65, y = -15, yend = 100, linetype = "dashed", color = "black", size = 0.25) +
   annotate("segment", x = 15, xend = -10, y = 20, yend = 250, linetype = "dashed", color = "black", size = 0.25)
 
-# png("question08.png", width = 1920, height = 1080, units = "px", res = 300)
+# png("img/question08.png", width = 1920, height = 1080, units = "px", res = 300)
 print(final_plot) # Display the resulting plot
 # dev.off()

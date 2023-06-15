@@ -1,8 +1,8 @@
-`# Load required libraries
-library(ggplot2, dplyr)
+# Load required libraries - install.packages("pacman")
+pacman::p_load(ggplot2, dplyr)
 
 # Read in data
-data <- read.delim("GENDER_EMP_19032023152556091.txt")
+data <- read.delim("data/GENDER_EMP_19032023152556091.txt")
 
 # Filter for wanted data
 f_data <- data %>%
@@ -23,6 +23,6 @@ final_plot <- ggplot(f_data, aes(x = Age.Group, y = Value, fill = Sex)) +
   scale_fill_manual(values = c("Men" = "#C2DCC2", "Women" = "#367ba2")) +
   theme_linedraw(base_size = 8)
 
-png("question03.png", width = 1920, height = 1080, units = "px", res = 300)
+# png("img/question03.png", width = 1920, height = 1080, units = "px", res = 300)
 print(final_plot) # Display the resulting plot
-dev.off()`
+# dev.off()`

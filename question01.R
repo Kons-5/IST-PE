@@ -1,5 +1,5 @@
-# Load required libraries
-library(readxl, tidyverse, reshape2)
+# Load required libraries - install.packages("pacman")
+pacman::p_load(readxl, tidyverse, reshape2)
 
 # Function to standardize a variable
 standardize <- function(x) {
@@ -7,7 +7,7 @@ standardize <- function(x) {
 }
 
 # Read data and build dataframe
-data <- read_xlsx("econ.xlsx") 
+data <- read_xlsx("data/econ.xlsx") 
 data$tempo <- as.Date(data$tempo, format = "%Y-%m-%d")
 
 df <- data %>%
@@ -34,11 +34,10 @@ final_plot <- plot +
   scale_color_manual(values=c("#34adff","#367ba2"), labels=c("Pop", "Ndesemp")) +
   theme(legend.position = "right", legend.title = element_blank()) +
   theme_linedraw(base_size = 8) +
-  scale_x_date(date_breaks = "1.5 years", date_labels = "%Y") +
-  scale_y_continuous(labels=scaleFUN, breaks=seq(min(meltdf$value, na.rm=TRUE), max(meltdf$value, na.rm=TRUE), by=1)) +
-  coord_cartesian(xlim = c(as.Date("1996-01-01"), max(df$tempo, na.rm=TRUE)))
+  scale_x_date(limits=c(as.Date("1995-06-01"), as.Date("2016-01-01")), date_breaks="1 year", date_labels="%Y") +
+  scale_y_continuous(labels=scaleFUN, breaks=seq(min(meltdf$value, na.rm=TRUE), max(meltdf$value, na.rm=TRUE), by=1))
 
 # Display the resulting plot
-# png("question01.png", width = 1920, height = 1080, units = "px", res = 300)
+# png("img/question01.png", width = 1920, height = 1080, units = "px", res = 300)
 print(final_plot)
 # dev.off()

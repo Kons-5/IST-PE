@@ -1,5 +1,5 @@
-# Load required libraries
-library(Rlab, tidyverse)
+# Load required libraries - install.packages("pacman")
+pacman::p_load(Rlab, tidyverse)
 
 # Fix the random seed 
 set.seed(1505)
@@ -80,6 +80,6 @@ final_plot <- ggplot(data, aes(x = SampleSize, y = MeanDifference)) +
   theme(panel.grid.major.x = element_blank(), panel.grid.minor.x = element_blank())
 
 # Display the resulting plot
-png("question09.png", width = 1920, height = 1080, units = "px", res = 300)
+# png("img/question09.png", width = 1920, height = 1080, units = "px", res = 300)
 print(final_plot)
-dev.off()
+# dev.off()

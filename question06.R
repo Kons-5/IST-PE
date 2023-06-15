@@ -18,5 +18,3 @@ abs_deviation <- abs(prob39 - fraction)
 
 # print :]
 print(round(abs_deviation, 4))
-
-
