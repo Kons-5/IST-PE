@@ -1,55 +1,44 @@
-library(readxl)
-library(tidyverse)
-library(reshape2)
-library(ggthemr)
+# Load required libraries
+library(readxl, tidyverse, reshape2)
 
-# build dataframe
+# Function to standardize a variable
+standardize <- function(x) {
+  (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)
+}
+
+# Read data and build dataframe
 data <- read_xlsx("econ.xlsx") 
-
 data$tempo <- as.Date(data$tempo, format = "%Y-%m-%d")
-df <- subset(data, tempo >= as.Date("1996-01-01"))
-df <- df[,c("tempo", "pop", "ndesemp")]
 
-# Apply variable transformation
-stdd_pop = sd(df[[2]], na.rm = TRUE)
-mean_pop = mean(df[[2]], na.rm = TRUE)
-
-stdd_ndesemp = sd(df[[3]], na.rm = TRUE)
-mean_ndesemp = mean(df[[3]], na.rm = TRUE)
-
-df[,c("pop")] <- (df[,c("pop")] - mean_pop) / stdd_pop
-df[,c("ndesemp")] <- (df[,c("ndesemp")] - mean_ndesemp) / stdd_ndesemp
-
-# Set plot theme
-ggthemr("flat")
+df <- data %>%
+  filter(tempo >= as.Date("1996-01-01")) %>%
+  select(tempo, pop, ndesemp) %>%
+  mutate(across(c(pop, ndesemp), standardize))  # Apply variable transformation
 
 # Convert to a melted data frame
 meltdf <- melt(df, id="tempo")
+print(head(meltdf))
 
 # Create plot
 plot <- ggplot(data = meltdf, aes(x=tempo, y=value, colour=variable, group=variable)) +
-  geom_line(linewidth=1, alpha=0.5,na.rm = TRUE) +
-  geom_smooth(data = subset(meltdf, variable == "ndesemp"), method = "gam", se = FALSE) +
-  geom_point(size=1.2, alpha=0.6,na.rm = TRUE)
+  geom_line(linewidth=0.5, alpha=0.5, na.rm = TRUE) +
+  geom_smooth(data = subset(meltdf, variable == "ndesemp"), method = "gam", se = FALSE, linewidth = 0.6) +
+  geom_point(size=0.6, alpha=0.6, na.rm = TRUE)
 
-# Add theming
+# Apply theming, labels and title 
 scaleFUN <- function(x) sprintf("%.2f", x)
 
-plot + theme(legend.position = "right",
-             legend.title = element_blank()) +
-             labs(y = "", x = "Anos") +
-             scale_x_date(date_breaks = "1.5 years",
-                          date_labels = "%Y")
-             scale_y_continuous(labels=scaleFUN,
-                                breaks = seq(min(meltdf$value, na.rm = TRUE),
-                                max(meltdf$value, na.rm = TRUE), by = 1))
+final_plot <- plot + 
+  ggtitle("Normalized Trends of Total Population and Unemployment from 1996 Onwards") +
+  xlab("Years") + ylab("Normalized values") +
+  scale_color_manual(values=c("#34adff","#367ba2"), labels=c("Pop", "Ndesemp")) +
+  theme(legend.position = "right", legend.title = element_blank()) +
+  theme_linedraw(base_size = 8) +
+  scale_x_date(date_breaks = "1.5 years", date_labels = "%Y") +
+  scale_y_continuous(labels=scaleFUN, breaks=seq(min(meltdf$value, na.rm=TRUE), max(meltdf$value, na.rm=TRUE), by=1)) +
+  coord_cartesian(xlim = c(as.Date("1996-01-01"), max(df$tempo, na.rm=TRUE)))
 
-
-
-
-
-
-
-
-
-
+# Display the resulting plot
+# png("question01.png", width = 1920, height = 1080, units = "px", res = 300)
+print(final_plot)
+# dev.off()
