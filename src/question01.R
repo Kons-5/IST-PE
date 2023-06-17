@@ -34,7 +34,7 @@ final_plot <- plot +
   scale_color_manual(values=c("#34adff","#367ba2"), labels=c("Pop", "Ndesemp")) +
   theme(legend.position = "right", legend.title = element_blank()) +
   theme_linedraw(base_size = 8) +
-  scale_x_date(limits=c(as.Date("1995-06-01"), as.Date("2016-01-01")), date_breaks="1 year", date_labels="%Y") +
+  scale_x_date(limits=c(as.Date("1995-06-01"), as.Date("2016-01-01")), date_breaks="1.5 years", date_labels="%Y") +
   scale_y_continuous(labels=scaleFUN, breaks=seq(min(meltdf$value, na.rm=TRUE), max(meltdf$value, na.rm=TRUE), by=1))
 
 # Display the resulting plot
